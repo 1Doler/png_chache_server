@@ -3,6 +3,12 @@ const { createCanvas } = require('canvas');
 
 const app = express();
 
+const lastModifiedTime = new Date().toUTCString();
+
+const expiresTime = new Date();
+expiresTime.setFullYear(expiresTime.getFullYear() + 30);
+const expiresTimeString = expiresTime.toUTCString();
+
 // Установка заголовка CORS для разрешения доступа с любого источника
 app.use((_, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -27,8 +33,8 @@ app.get('/pngcookie', (req, res) => {
     } else {
         res.set({
             'Content-Type': 'image/png',
-            'Last-Modified': 'Wed, 30 Jun 2010 21:36:48 GMT',
-            'Expires': 'Tue, 31 Dec 2030 23:30:45 GMT',
+            'Last-Modified': lastModifiedTime,
+            'Expires': expiresTimeString,
             'Cache-Control': 'private, max-age=630720000'
         }).send(png);
     }
