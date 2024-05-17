@@ -1,7 +1,17 @@
 const express = require('express');
 const { createCanvas } = require('canvas');
+const cookieParser = require('cookie-parser');
 
 const app = express();
+app.use(cookieParser());
+
+// Установка заголовка CORS для разрешения доступа с любого источника
+app.use((_, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Custom-Header, Cache-Control');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
+});
 
 const lastModifiedTime = new Date().toUTCString();
 
@@ -9,16 +19,10 @@ const expiresTime = new Date();
 expiresTime.setFullYear(expiresTime.getFullYear() + 30);
 const expiresTimeString = expiresTime.toUTCString();
 
-// Установка заголовка CORS для разрешения доступа с любого источника
-app.use((_, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Custom-Header, Cache-Control');
-    next();
-});
-
 app.get('/pngcookie', (req, res) => {
 
     const data = req.headers["custom-header"];
+    console.log(req.cookies)
 
     if (!data) {
         if (!res.headersSent) {
