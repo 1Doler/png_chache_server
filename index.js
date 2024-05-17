@@ -18,7 +18,15 @@ app.use((_, res, next) => {
 
 app.get('/pngcookie', (req, res) => {
 
-    const data = req.headers["custom-header"] || "undefined";
+    const data = req.headers["custom-header"];
+
+    if (!data) {
+        if (!res.headersSent) {
+            res.writeHead(304);
+            res.end();
+            return;
+        }
+    }
 
     const png = encodeStringToPNG(data);
 
