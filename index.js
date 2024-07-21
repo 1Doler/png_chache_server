@@ -9,8 +9,9 @@ const allowedOrigins = ['http://localhost:5173', 'https://check-cache.netlify.ap
 app.use((_, res, next) => {
     const origin = req.headers.origin;
     res.header('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Custom-Header, Cache-Control');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
 
