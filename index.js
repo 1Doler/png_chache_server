@@ -6,7 +6,7 @@ const app = express();
 app.use(cookieParser());
 const allowedOrigins = ['http://localhost:5173', 'https://check-cache.netlify.app', 'https://check-cache.onrender.com', 'https://check-cache.vercel.app', 'https://png-cache-page.onrender.com', 'https://png-cache-page.vercel.app', 'https://poetic-douhua-3d3d7b.netlify.app'];
 // Установка заголовка CORS для разрешения доступа с любого источника
-app.use((_, res, next) => {
+app.use((req, res, next) => {
     const origin = req.headers.origin;
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', 'true');
